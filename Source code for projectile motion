@@ -1,0 +1,79 @@
+import math
+
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+%matplotlib inline 
+
+
+# set initial postion and gravitational constant 
+x = 0
+y = 0
+z = 0
+g = 9.81
+
+
+# set initial velocity 'u'. This will act in the X,Y Plane. 
+u_xy = 50
+# set launch angle
+theta = np.radians(45)
+
+
+# set wind velocity as 0.5 m/s NE. This will act in the X,Z Plane. 
+wind_vel = 0.5
+wind_dir_deg = 45
+
+# Calculate initial velocity in the x and y directions. 
+u_x =  u_xy*np.cos(theta)
+u_y =  u_xy*np.sin(theta)
+
+# Calculate wind velocity in the x-direction, and wind velocity in the z-direction
+wind_vel_x = 0.5 * np.cos(np.radians(wind_dir_deg))
+wind_vel_z = 0.5 * np.sin(np.radians(wind_dir_deg))
+
+
+# set the time interval as 0.1 s
+delta_t = 0.1
+
+x_traj = [x]
+y_traj = [y]
+z_traj = [z]
+# Calculate position at t = 0.1
+while (y>=0): 
+    x = x_traj[-1] + u_x*delta_t + wind_vel_x*delta_t
+    y = y_traj[-1] + u_y*delta_t
+    z = z_traj[-1]+ wind_vel_z*delta_t
+
+    # Calculate v_x and v_y
+
+    v_x = u_x + g*delta_t
+    v_y = u_y - g*delta_t
+
+    # intialize u_x and u_y
+
+    u_x = v_x
+    u_y = v_y
+    
+    # add new position to trajectory data
+    x_traj.append(x)
+    y_traj.append(y)
+    z_traj.append(z)
+
+    
+fig = plt.figure()
+fig.set_size_inches(18.5, 10.5)
+ax = fig.gca(projection='3d')
+
+ax.plot(x_traj, z_traj, y_traj, zdir='z')
+ax.text(600,3,0, "X", fontsize ="25")
+ax.set_xlim(0, 1000)
+ax.set_ylim(0, 5)
+ax.set_zlim(0, 100)
+ax.set_xlabel('$Distance$')
+ax.set_ylabel('$Wind Displacement$')
+ax.set_zlabel("$Height$")
+plt.show()
+
+
+
