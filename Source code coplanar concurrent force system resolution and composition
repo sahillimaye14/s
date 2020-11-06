@@ -1,0 +1,22 @@
+import numpy as np
+import math
+
+'''A force system is expressed as a matrix as follows: ["magnitude", "direction"]. 
+The first number is the magnitude and the last number is the direction. 
+'''
+
+F_system =  np.array([[50,20], [-50,-60], [-30,30], [50,-45]])
+
+sum_f_x = 0.00
+sum_f_y = 0.00
+
+
+for i in range(len(F_system)):
+    sum_f_x = F_system[i][0]*np.cos(np.radians(F_system[i][1])) + sum_f_x
+    sum_f_y = F_system[i][0]*np.sin(np.radians(F_system[i][1])) + sum_f_y    
+    
+Rmag = np.sqrt(sum_f_x*sum_f_x + sum_f_y*sum_f_y)
+Rdir = np.degrees(np.tanh(sum_f_y/sum_f_x ))
+
+print('The magnitude of the resultant is %5.3f' %Rmag, 'and the direction is %5.3f'  %Rdir, 'degrees in the \n anticlockwise direction from the X-axis')
+
